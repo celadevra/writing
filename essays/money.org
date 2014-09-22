@@ -17,7 +17,7 @@
 
 那么存定期存款的好处何在？过去的人可能还认为银行存款比其他投资手段风险小，但考虑到银行投资策略的盲目性[fn:bank-blind]，这点未必是事实。现在存定期的考虑还是资金去向的多样化，以及与其他的投资手段[[wikipedia-zh:利率风险][对冲]]。还有一个目的，就是购买银行的理财产品。但是其他投资手段的出现，抢购理财产品对精力的牵扯，购买门槛的提高和收益率的下降都使得购买理财产品的吸引力降低。
 
-# 余额宝
+* 余额宝
 
 最开始时，支付宝只是一个提供互联网上第三方支付服务的公司。除了有的时候要凑钱买超过银行卡支付额度的大件，或者在促销的时候“秒杀”，用户基本想不到有什么必要主动把钱放到支付宝里。
 
@@ -35,7 +35,7 @@
 
 目前我正在把余额宝作为主要的投资手段。
 
-# P2P 贷款
+* P2P 贷款
 
 这又是一个利用中国各银行的懒惰而在近年异军突起的金融产品。银行说非银行贷款渠道的成本高，但从这些渠道贷款的火爆看来，贷款成本并不仅仅是利率的问题。愿意贷利率10%以上甚至达到20%的贷款者比比皆是。
 
@@ -43,13 +43,13 @@
 
 虽然 P2P 贷款在2012-2013年已经经历了一个模仿者大量上马和死掉一批的过程，现在这个行业内仍然很难确定是谁在裸泳。最大的问题在于对借贷人的信用难以评估。目前我使用的贷款网站至少还是可以提现的，但我可能不会往上面增加太多资金。
 
-# Ripple
+* Ripple
 
 除了参加[[http://www.computingforgood.org/][Computing for Good]]的项目每天挣点零散的 XRP 以外，我并没有真的“投资”这种虚拟货币。因为不需要投入资金挖矿，也没有太多的媒体关注，Ripple 不像比特币那样有众多的炒家，因而价格也比较平稳。事实上，Ripple 可能还比较接近比特币创始时的理想——一个匿名的、去中心的支付解决方案。
 
 我打算把这种货币当成 Kudos 来使用，当人们在网上做了什么我觉得应该感谢的事，而又提供了 Ripple 地址的时候，我会发送给它们一些 XRP 以示感谢。
 
-# Kiva
+* Kiva
 
 这并不是一个投资手段，而且很可能有[[http://www.nextbillion.net/blogpost.aspx?blogid=3726][巨大的问题]]。
 
@@ -64,7 +64,9 @@
 
 [fn:bank-blind]: 在 Walter 和 Howie 的著作 /Red Capitalism/ 中，他们这样写道：
 
-    > Looking forward, the lending binge of 2009 threatens, and will most certainly generate problem loans of sufficient scale to require yet a third recapitalization in the next two to three years.
+#+BEGIN_QUOTE
+Looking forward, the lending binge of 2009 threatens, and will most certainly generate problem loans of sufficient scale to require yet a third recapitalization in the next two to three years.
+#+END_QUOTE
 
     现在的情况可能略有好转，但和短期理财产品相比，定期存款仍然可能被投放到没有什么收益的项目中，造成整个银行坏账比重的增加。重视短期利益的理财产品可能反而有较多的前期设计和内部监管。
 
