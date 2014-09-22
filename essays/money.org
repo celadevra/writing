@@ -6,8 +6,8 @@
 #+BELIEF: possible
 #+TAGS: ['money', 'self']
 
-<!-- Status choices are: links, notes, draft, in progress, finished -->
-<!-- belief tags are: certain, highly likely, likely, possible, unlikely, highly unlikely, remote, impossible -->
+#-- Status choices are: links, notes, draft, in progress, finished -->
+#-- belief tags are: certain, highly likely, likely, possible, unlikely, highly unlikely, remote, impossible -->
 
 * 存款账户
 
@@ -56,11 +56,7 @@
 即使这些对 Kiva 的指责并不成立，Kiva 并不提供任何返还的利息，而且除了出借款以外还需要付出15%（！）的管理费用。如果不是突然大发善心又没有帮助别人的其他方式，Kiva 实在不是一个值得把钱交托的渠道。
 
 
-[kiva-fairytale]: http://www.nextbillion.net/blogpost.aspx?blogid=3726 "The problem of Kiva overlooked by many"
-[zhwiki-irrisk]: http://zh.wikipedia.org/wiki/利率風險 "利率风险 - 维基百科，自由的百科全书"
-[cfg]: http://www.computingforgood.org/ "Computing for Good"
-
-[fn:2011-shrink]: 计算根据新华网发布的2011年CPI上涨[[http://news.xinhuanet.com/fortune/2012-01/12/c_122576447.htm][数据]]以及当年的1年期存款[[http://www.southmoney.com/lilv/dingqicunkuanli/201205/304821.html][利率]]。计算公式为$\frac{1+\text{存款利率}}{1+\text{CPI涨幅}} \times 100\%$。
+[fn:2011-shrink]: 计算根据新华网发布的2011年CPI上涨[[http://news.xinhuanet.com/fortune/2012-01/12/c_122576447.htm][数据]]以及当年的1年期存款[[http://www.southmoney.com/lilv/dingqicunkuanli/201205/304821.html][利率]]。计算公式为 $\frac{1+\text{存款利率}}{1+\text{CPI涨幅}} \times 100\%$。
 
 [fn:bank-blind]: 在 Walter 和 Howie 的著作 /Red Capitalism/ 中，他们这样写道：
 
