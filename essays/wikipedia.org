@@ -1,0 +1,33 @@
+#+TITLE: 我在维基百科上的工作
+#+CREATED: 2014-04-15
+#+AUTHOR: Haoyang Xu
+#+DESCRIPTION: 我对维基百科中文版的编辑工作
+#+STATUS: in progress
+#+BELIEF: log
+#+TAGS: ['wikipedia', 'knowledge']
+
+目前我的主[[https://zh.wikipedia.org/wiki/User:Haoyangxu][帐号]]已进行了约[[https://tools.wmflabs.org/supercount/index.php?user=Haoyangxu&project=zh.wikipedia][70次]]编辑。加粗字体为新建页面。
+
+* 环境保护领域
+
+[[https://zh.wikipedia.org/wiki/蒙特利尔议定书][蒙特利尔议定书]]
+
+* 文化/学术
+
+[[https://zh.wikipedia.org/w/index.php?title=弗朗索瓦·孚雷&redirect=no][*弗朗索瓦·孚雷*]]
+
+[[https://zh.wikipedia.org/wiki/层级分析过程][*层级分析过程*]]
+
+* 游戏/技术
+
+[[https://zh.wikipedia.org/wiki/維爾福][维尔福]]
+
+[[https://zh.wikipedia.org/wiki/卡坦岛][卡坦岛]]
+
+[[https://zh.wikipedia.org/wiki/OS_X_Mavericks][OS X Mavericks]]
+
+[[https://zh.wikipedia.org/wiki/廣域紅外線巡天探測衛星][广域红外线巡天探测卫星]]
+
+* 地理
+
+[[https://zh.wikipedia.org/wiki/比例尺][比例尺]]

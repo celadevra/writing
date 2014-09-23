@@ -1,0 +1,152 @@
+#+title: 野外医疗笔记
+#+created: 20090120
+#+author: Haoyang Xu
+#+status: notes
+#+belief: likely
+#+tags: ['medical']
+#+<! Status choices are: links, notes, draft, in progress, finished >
+#+BEGIN_HTML
+  <!-- Status choices are: links, notes, draft, in progress, finished -->
+  <!-- belief tags are: certain, highly likely, likely, possible, unlikely, highly unlikely, remote, impossible -->
+#+END_HTML
+
+Warning:  This is an excerpt of  the author's notes taken during a
+medical training.  Archive purpose only.  DO NOT use it as medical
+advice or use any content in any tutorial, lecture, or course.  DO NOT
+apply materials below in an urban or other setting where medical
+assistance can be sought in one day.  The author claims no
+responsibility nor liability for the consequence of other people's use
+of the material below.
+
+警告：以下内容是作者个人上课的笔记摘录，仅供个人复习存档之用。切勿将其视为正规的医疗意见和方法或在任何练习、讲座或课程中使用以下材料。切勿在城市或其他能够在一日内寻求医疗救护的情况下应用下述材料。作者对他人使用下述材料造成的任何后果不承担任何责任。First
+do no harm (this may mean first do
+nothing)。治疗有风险，动手需谨慎。治疗前要权衡利弊。
+
+#+BEGIN_HTML
+  <ol>
+  <li>
+#+END_HTML
+
+"A little knowledge is dangerous" does NOT
+apply。对于基本原则的知识可能决定生死。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+CPR
+要点：DRSABC。确保没有危险（Danger），观察回应（Response），呼唤（Shout）帮助，再加上通常急救培训一定会讲的
+ABC。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+队医对队伍成员，包括当地人、外地人、脚夫等等都负有责任。但对于非队伍成员的当地居民，如非情况危急，应当推荐他们到正规医疗单位就医。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+队医进行治疗前，应说明自己的经验水平，并取得被治疗者同意，不可宣称或暗示自己是真正的医生。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+在援助很久才能到达的情况下，大量使用抗生素可能有必要。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+考虑撤出伤病员所需的运输方式，各有什么优缺点，需要的时间，以便决策。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+一般远征外伤处理方法：镇痛剂，止血，清创，询问破伤风、过敏、用药情况，拍照，抗生素，询问经过、时间、地点，记录治疗措施，考虑撤出方案。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+镇痛剂不会完全掩盖疼痛症状，因此不影响诊断，前提是队医和医生了解病人服用过镇痛剂（剂量和类型）。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+出发前注射疫苗！特别注意狂犬病和蚊虫传播的疾病。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+病史记录：AMPLE，即过敏（Allergies），用药（Medicines），既往病史（Past
+medical history），上一餐（Last Meal），造成伤害的事件（Events leading
+to the
+injury）。对于胸腹部疼痛的伤病员，还需要询问疼痛时间、周期、位置、扩散转移、类型、加重或缓解因素、家族遗传病史等等。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+AVPU 知觉量表：A Alert，V Response to verbal command，P Resonse to
+pain，U Unreponsive。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+更详细的是 Glasgow Consciousness Scale （GCS）。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+推荐的镇痛剂，药效由弱到强：paracetamol（对乙酰氨基酚，扑热息痛），Co-codamol（30/500），Tramadol（反胺苯环醇，曲马多，有成瘾性），Ibuprofen（异丁苯丙酸，布洛芬，注意禁忌症）。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+骨折处理：检查 MCS
+（运动、循环和知觉），使用夹板，开放性骨折需要处理避免感染。运送时注意可能的脊椎受伤情况。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+脱臼处理：在偏远地区，及早进行复位可能是正确的做法。缓慢拉伸脱臼肢体直到复位完成，避免反复运动，考虑使用镇痛剂。复位后适当包扎和／或
+RICE 处理。
+
+#+BEGIN_HTML
+  </li>
+  <li>
+#+END_HTML
+
+AMS：在海拔上升最大达到3000米当天开始使用 Diamox
+并坚持服用可以通过促进呼吸加速人体适应。药效约能持续一周。
+
+#+BEGIN_HTML
+  </li>
+  </ol>
+
+#+END_HTML
+
