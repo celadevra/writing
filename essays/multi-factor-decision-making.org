@@ -49,9 +49,9 @@
 
 基于上述两种解空间的表述方式，多因素决策用两个概念分别表示两种表述下的目标。
 
-1. 在选择原则空间表述中，$\mathbf{q^{*}} \in \mathbf{Q}$ 是非被支配（nondominated）的，如果没有其他的 $\mathbf{q} \in \mathbf{Q}$ 使 $\mathbf{q} \geq \mathbf{q^{*}}$ 且 $\mathbf{q} \neq \mathbf{q^{*}}$。粗略地说，非支配表示该解不差于准则空间内的其他解。
+1. 在选择原则空间表述中，$\mathbf{q^{*}} \in \mathbf{Q}$ 是非被支配（nondominated）的，如果没有其他的 $\mathbf{q} \in \mathbf{Q}$ 使 $\mathbf{q} \geq \mathbf{q^{*}}$ 且 $\mathbf{q} \neq \mathbf{q^{*}}$ 。粗略地说，非支配表示该解不差于准则空间内的其他解。
 
-2. 在决策空间表述中，$\mathbf{x^{*}} \in \mathbf{X}$ 是有效的，如果不存在其他的 $\mathbf{x} \in \mathbf{X}$ 使 $\mathbf{f(x)} \geq \mathbf{f(x^{*})}$ 且 $\mathbf{f(x)} \neq \mathbf{f(x^{*})}$。
+2. 在决策空间表述中，$\mathbf{x^{*}} \in \mathbf{X}$ 是有效的，如果不存在其他的 $\mathbf{x} \in \mathbf{X}$ 使 $\mathbf{f(x)} \geq \mathbf{f(x^{*})}$ 且 $\mathbf{f(x)} \neq \mathbf{f(x^{*})}$ 。
 
 以上两个概念还有一种较弱的形式，和强形式的不同在于它们不要求空间中其他的点的值与目标点的值不同。
 
