@@ -6,9 +6,6 @@
 #+BELIEF: possible
 #+TAGS: ['money', 'self']
 
-#-- Status choices are: links, notes, draft, in progress, finished -->
-#-- belief tags are: certain, highly likely, likely, possible, unlikely, highly unlikely, remote, impossible -->
-
 * 存款账户
 
 我的主要收入来源仍然是工资，因此它们总是会以活期存款账户中的一笔钱的形式出现。绝大多数钱在被花出去前的最后一刻，也仍然会呆在这个账户里。
