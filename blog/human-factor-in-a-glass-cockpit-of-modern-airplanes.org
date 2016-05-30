@@ -1,0 +1,18 @@
+#+TITLE: Human factor in a glass cockpit of modern airplanes
+#+AUTHOR: Haoyang Xu
+
+[[http://www.vanityfair.com/business/2014/10/air-france-flight-447-crash][Should airplanes fly themselves?]]
+
+    William Langewiesche explores how a series of small errors can turn a state-of-the-art cockpit into a death trap.
+
+Flight automation deals with a complex system — the airplane, and leaves the pilot with more mental resources to deal with thorny situations, as the theory goes. In reality, automation leaves very little for pilots to do, drastically reducing errors and accidents, but meanwhile leading to de-skilling and complacency during flights.
+
+As a result, if something happens that cause automation systems to fail or abort, only the most exceptional pilots can deal with the situation adequately. But as automation lowers the threshold for competence required by flying, such knowledge and skill are in short supply. And when accidents do take place, they are usually fatal.
+
+What’s more, while cockpits and systems are becoming more advanced at an unprecedented rate, the culture among pilots and training has not caught up. As the final dialogues between the AF 447 crew show, the pilots could not correctly interpret information presented to them, and could not communicate their intentions and actions among themselves.
+
+The human factor cannot be easily changed. The aviation industry may respond to the tragedy of AF 447 and other accidents by more automation eliminating more errors and leading to even less resourceful pilots. And when something happens, even more automation …. The author predicts that finally human would be excluded from piloting at all.
+
+I think automation in flights actually calls for pilots with stronger psychology and more training that the industry currently can offer. They must be able to tolerate the boredom during long, automated flights and to respond quickly and correctly when something comes up. They need to understand how the glass cockpit works to interpret readings, and also need to be able to fly without most of the assistance by computers. We are talking about builds for snipers and Jason Bourne here.
+
+The real recruit and training of course can only yield pilots as we know today. So assuming more automation is the way to go, we may expect to see the death-per-million-km-travelled figure to be lower in the future, but at a slower speed than the past two decades, as automation cannot prepare for all possible (human) errors.
