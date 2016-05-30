@@ -1,0 +1,34 @@
+#+TITLE: Narcos (2015)
+#+AUTHOR: Haoyang Xu
+#+DATE: 2016-02-19
+#+COLUMNS: %5Year %20Country %20Starring %10Rating
+
+* Introduction
+  :PROPERTIES:
+  :Year:     2015
+  :Country:  United States
+  :Starring: Wagner Moura, Boyd Holbrook, Pedro Pascal
+  :Rating:   4/5
+  :END:
+  
+  /Narcos/ (2015) is a series created and distributed by Netflix. The story arc of its first season covers the period from late 1970s when Pablo Escobar began trafficking cocaine to 1992 when he escaped from his jail. This is a very long story compared to that of season 1 of /Breaking Bad/ or /the Wire/. And it is very commendable that the screenwriting is still terse and grasping.
+  
+  A feature of the series is its atmosphere of America the continent in 1980s. The communications are slow compared to today's, but forces as swift and deadly as those of now. This has contributed to the suspense and the drama. Apparently the high-tech surveillance in /24/ actually made the narrative linear and flat, which is not the case in /Narcos/. The audience knows more than the characters in many cases, and it is very enjoyable to see the situations unfold and the characters react.
+
+  Why I use my time to watch this? Probably because I have a crave for interpretations of history. Not historical text but how people read history. In this case, I am especially interested in the portrait of a cruel and violent drug lord. It is easy to picture him as a ruthless devil when the US is at the height of war against the cartel, and equally easy to humanize him now the concerns are largely moved away from Columbia. I want to see how the series represent the history and dig into the character's development.
+
+* A humanized drug lord is still chilling
+  
+  The leading actor, Wagner Moura, seems to have the ability to merge two people in one: a family man and a desperado. It is amazing that Christopher Bale can switch between a gentleman and a killer in /American Psycho/. But Moura's acting is a different kind of excellency: he makes a family man and a tyrant appear in one body, at the same time.
+
+  An example at hand is a scene in S01E09, when Escobar is at his birthday party in La Catedral. He was wearing a funny wig, probably as a gesture to make his family laugh, when Moncada's wife complains about the high 'war tax'. We can see Escobar's face slowly drapes down, his eyes staring at the poor woman. He begins to ask questions in a very firm but plain tone. We all anticipate what is going to happen at this moment. 
+
+  By making him human, /Narcos/ makes Escobar more terrorizing. A dictator is not scary if it is a machine that knows no pity and mercy. As long as the rules are consistent, the subjects of dictatorship will find it possible to live, although they will hate the dictator no less. But Escobar and other dictators are human, they share our desires, vanity and capriciousness. That is what make them scary, the unpredictable turns of emotion. The real-life Escobar knew well about wielding both carrots and sticks to keep his henchmen and external relations in check. That, reflected in /Narcos/' interpretation, is his ability to mask his true intentions under layers and layers of disguise.
+* Postcolonialism in the series
+  One very notable argument by the series, presented by the characters repeatedly throughout the first few episodes, is that the Colombian drug problem would never be so big if not for American's (of the United States) appetite for Cocaine. On the numbers, this argument makes sense. The Medellín Cartel at its height brought in millions of dollars per day, which is impossible without the US market. This fact has hindered the effort by DEA to extradite the kingpins in the series. As the image of Colombians cuffing Colombians and send them to US prosecutors brings up unpleasant memories in the colonized days. Drugs seems to be the sin commited by Americans and Columbians together, so why only Colombians were accused? Americans look like Spanish colonists again, who scrape Columbia its fortune and treat South Americans as inferior.
+
+The drama from the political risk on the American side if they don't understand this sentiment is one drive of drama in the series. And we see that several Columbian figures such as President Gavaria, faces nationalist pressures that tie their hands to an extent when they want to collaborate with the Americans, which increases the dynamic nature of the narrative.
+
+This postcolonialism discourse is further complicated by the Colombian guerilla factions with Marxism agenda. In S01E02, the leader of the M-19 faction is shown with a sword once wielded by Simon Bolivar. These guerilla fighters, and then Escobar, believed they are librators who deliver Colombian people from the yoke of capitalists and foreign manipulators. They were still in a *colonial* style of thinking while the upper infrastructure is doing postcolonial work to contend with the US as an equal player.
+
+Perhaps in a postcolonial country, the best way to differentiate from the official discourse while manitaining legitimacy is to adopt an anti-colonial discourse. But in practice, these anti-colonial words must be supported with colonialism actions -- occupying forests to set up bases as pictured in the series. Guerilla fighting and drug production cannot be done in cities and towns where there is no soil. Therefore they are not compatible with postcolonialism, which despises agriculture and crops that are symbols of being slaved and extracted.

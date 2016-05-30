@@ -1,0 +1,341 @@
+#+TITLE: Understanding Org-Mode's export dispatcher
+#+DATE: 2016-04-12
+#+AUTHOR: Haoyang Xu
+
+Org-Mode has a very powerful export system, which supports exporting to HTML, PDF, TeX, TeXinfo and many other formats by default, and one can write extensions to support more formats. More importantly, it has a dispatcher interface, where users can access the most used export options with a few keystrokes.
+
+In my [[https://github.com/celadevra/org-medium][Org-Medium project]], I want to support the various publish options provided by Medium's API, and make the user interface as simple as possible. Something similar to Org-Mode's dispatcher seems desirable. To implement this, I need to find out how Org-Mode does it.
+
+By default, the user can call Org-Mode's dispatcher interface by ~M-x org-export-dispatch~ or pressing ~C-c C-e~. If you are using Emacs, you can try that in an org-mode buffer now. The dispatcher shows a series of options. For some export formats, you have a second level menu that can be chosen from, and input ~q~ to quit.
+
+As of version 8.3.2, the functions related to this functionality reside in ~ox.el~ in the Org-Mode code tree. The functions in question are
+
+- [[http://orgmode.org/w/?p=org-mode.git;a=blob;f=lisp/ox.el;hb=fd8a18151a7a64ded36c169f03c76bf96733bfd9#l6099][~org-export-dispatch~]]
+- [[http://orgmode.org/w/?p=org-mode.git;a=blob;f=lisp/ox.el;hb=fd8a18151a7a64ded36c169f03c76bf96733bfd9#l6175][~org-export--dispatch-ui~]]
+- [[http://orgmode.org/w/?p=org-mode.git;a=blob;f=lisp/ox.el;hb=fd8a18151a7a64ded36c169f03c76bf96733bfd9#l6350][~org-export--dispatch-action~]]
+  
+which are written together in the file. Kudos for good practice.
+
+The call stack of the functions is shown below:
+
+#+BEGIN_SRC dot :file ../assets/images/org-export-functions.png :exports results
+  digraph {
+          "org-export-dispatch" -> "org-export--dispatch-ui";
+          "org-export--dispatch-ui" -> "org-export--dispatch-action";
+	  "org-export--dispatch-action" -> "org-export--dispatch-ui";
+	  "org-export--dispatch-action" -> "org-export--dispatch-ui"[style=dashed];
+	  "org-export--dispatch-ui" -> "org-export-dispatch"[style=dashed];
+  }
+#+END_SRC
+
+#+CAPTION: Relations of 3 functions. Solid line: call; dashed line: return value
+#+RESULTS:
+[[https://expoundite.net/images/org-export-functions.png]]
+
+We can look into these functions one by one:
+
+* ~org-export-dispatch~
+#+BEGIN_SRC elisp -n 6099
+(defun org-export-dispatch (&optional arg)
+#+END_SRC
+
+The first line tells us that this function accepts an optional argument. The document of the function tells us, that the argument can be a universal argument, which is often used in Emacs functions to change their default behaviour. If there is one universal argument ('~C-u C-c C-e~'), settings from last time is used. If there are two ('~C-u C-u C-c C-e~'), it shows the asynchronous export stack, which is a buffer recording outputs of an asynchronous export process, if you haven't used that kind of export, the buffer is empty.
+
+So how is this implemented? Let's look at the function body.
+
+#+BEGIN_SRC elisp  
+  (interactive "P")
+    (let* ((input
+            (cond ((equal arg '(16)) '(stack))
+                  ((and arg org-export-dispatch-last-action))
+                  (t (save-window-excursion
+                       (unwind-protect
+                           (progn
+                             ;; Remember where we are
+                             (move-marker org-export-dispatch-last-position
+                                          (point)
+                                          (org-base-buffer (current-buffer)))
+                             ;; Get and store an export command
+                             (setq org-export-dispatch-last-action
+                                   (org-export--dispatch-ui
+                                    (list org-export-initial-scope
+                                          (and org-export-in-background 'async))
+                                    nil
+                                    org-export-dispatch-use-expert-ui)))
+                         (and (get-buffer "*Org Export Dispatcher*")
+                              (kill-buffer "*Org Export Dispatcher*")))))))
+           (action (car input))
+           (optns (cdr input)))
+           ...)
+#+END_SRC
+
+This is the ~VARLIST~ part of the ~let*~ function. ~let*~ is used here instead of ~let~ because the first variable ~input~ is used to define some other variables. ~input~ is defined with a ~cond~ statement. ~cond~ tests a series of conditions, until one succeeds, then its corresponding statement is evaluated. In this case, two ~C-u~ sends an argument of value ~'(16)~, and ~input~ is given the value ~\'(stack)~. If only one ~C-u~, function ~org-export-dispatch-last-action~ is evaluated as ~and~ function evaluates ~arg~, find it true, then evaluate the next expression. If no ~C-u~, then the ~and~ condition won't succeed, and the next clause will always be evaluated, because of the ~t~ in the clause's condition part.
+
+In the body part of the last condition clause, the point location when you call the dispatcher function is saved (~save-window-excursion~), ~unwind-protect~ is another flow-control structure, which is best explained in its documentation:
+
+#+BEGIN_QUOTE
+(unwind-protect BODYFORM UNWINDFORMS...)
+
+Do BODYFORM, protecting with UNWINDFORMS.
+If BODYFORM completes normally, its value is returned
+after executing the UNWINDFORMS.
+If BODYFORM exits nonlocally, the UNWINDFORMS are executed anyway.
+#+END_QUOTE
+
+This ensures the dispatcher buffer will always be killed when the function exits. In the ~BODYFORM~ part is a ~progn~ expression, which in sequence does these:
+
+- use a marker to record current location in the Org-Mode buffer where your call export dispatcher;
+- store the export command in ~org-export-last-action~, the value is obtained by calling ~org-export--dispatch-ui~
+  
+Then the first element in the ~input~ list becomes the value of ~action~, and the rest the value of ~optns~. Then we enter the ~BODY~ part of the ~let*~ expression.
+
+#+BEGIN_SRC elisp
+  (unless (memq 'subtree optns)
+    (move-marker org-export-dispatch-last-position nil))
+#+END_SRC
+
+~memq~ checks if an element is in a list. If the export scope is the whole file, we no longer need the point where we call the export dispatcher.
+
+#+BEGIN_SRC elisp
+  (case action
+    ;; First handle special hard-coded actions.
+    (template (org-export-insert-default-template nil optns))
+    (stack (org-export-stack))
+    (publish-current-file
+     (org-publish-current-file (memq 'force optns) (memq 'async optns)))
+    (publish-current-project
+     (org-publish-current-project (memq 'force optns) (memq 'async optns)))
+    (publish-choose-project
+     (org-publish (assoc (org-icompleting-read
+                          "Publish project: "
+                          org-publish-project-alist nil t)
+                         org-publish-project-alist)
+                  (memq 'force optns)
+                  (memq 'async optns)))
+    (publish-all (org-publish-all (memq 'force optns) (memq 'async optns)))
+    (otherwise
+     (save-excursion
+       (when arg
+         ;; Repeating command, maybe move cursor to restore subtree
+         ;; context.
+         (if (eq (marker-buffer org-export-dispatch-last-position)
+                 (org-base-buffer (current-buffer)))
+             (goto-char org-export-dispatch-last-position)
+           ;; We are in a different buffer, forget position.
+               (move-marker org-export-dispatch-last-position nil)))
+           (funcall action
+                    ;; Return a symbol instead of a list to ease
+                    ;; asynchronous export macro use.
+                    (and (memq 'async optns) t)
+                    (and (memq 'subtree optns) t)
+                    (and (memq 'visible optns) t)
+                    (and (memq 'body optns) t)))))
+#+END_SRC
+
+~case~ function examines the value of ~action~ and decide what to do, this is the actual 'dispatching' part. The hard-coded actions are straightforward. If not hard coded, the ~otherwise~ clause checks if this is repeating the last action. If not these cases, then the action is exporting to certain format, the argument presence is checked again with ~memq~, ~and~-ing the result with a ~t~ ensure that the values are either ~nil~ or ~t~.
+
+* ~org-export--dispatch-ui~
+  This function handles the display of UI, including showing all actions and options, and highlighting selected actions and options.
+  
+  #+BEGIN_SRC elisp
+  (defun org-export--dispatch-ui (options first-key expertp)
+  #+END_SRC
+  
+  ~options~ is a list of options, ~first-key~ is the key pressed to select the first level menu. ~expertp~ determines if expert mode is activated.
+  
+  At the beginning of the function body is a very long ~let*~ expression. We look at the first 3 below:
+
+  #+BEGIN_SRC elisp
+    (fontify-key
+              (lambda (key &optional access-key)
+                ;; Fontify KEY string.  Optional argument ACCESS-KEY, when
+                ;; non-nil is the required first-level key to activate
+                ;; KEY.  When its value is t, activate KEY independently
+                ;; on the first key, if any.  A nil value means KEY will
+                ;; only be activated at first level.
+                (if (or (eq access-key t) (eq access-key first-key))
+                    (org-propertize key 'face 'org-warning)
+                  key)))
+             (fontify-value
+              (lambda (value)
+                ;; Fontify VALUE string.
+                (org-propertize value 'face 'font-lock-variable-name-face)))
+             ;; Prepare menu entries by extracting them from registered
+             ;; back-ends and sorting them by access key and by ordinal,
+             ;; if any.
+             (entries
+              (sort (sort (delq nil
+                                (mapcar #'org-export-backend-menu
+                                        org-export-registered-backends))
+                          (lambda (a b)
+                            (let ((key-a (nth 1 a))
+                                  (key-b (nth 1 b)))
+                              (cond ((and (numberp key-a) (numberp key-b))
+                                     (< key-a key-b))
+                                    ((numberp key-b) t)))))
+                    'car-less-than-car))
+  #+END_SRC
+  
+  ~fontify-key~ is a helper function, whose purpose is to highlight keys corresponding to actions and options selected. If ~access-key~ is nil, or not a ~first-key~ when ~org-export--dispatch-ui~ is called, it just returns the key that feed to it.
+
+  ~fontify-value~ is also a helper function, which highlights a specific value.
+
+  ~entries~ generates an options menu from all registered export backends, remove all ~nil~ items, sort remaining items by order in the backend, and then by order of backends. 
+  
+  #+BEGIN_SRC elisp
+    ;; Compute a list of allowed keys based on the first key
+    ;; pressed, if any.  Some keys
+    ;; (?^B, ?^V, ?^S, ?^F, ?^A, ?&, ?# and ?q) are always
+    ;; available.
+    (allowed-keys
+     (nconc (list 2 22 19 6 1)
+            (if (not first-key) (org-uniquify (mapcar 'car entries))
+              (let (sub-menu)
+                (dolist (entry entries (sort (mapcar 'car sub-menu) '<))
+                  (when (eq (car entry) first-key)
+                    (setq sub-menu (append (nth 2 entry) sub-menu))))))
+            (cond ((eq first-key ?P) (list ?f ?p ?x ?a))
+                  ((not first-key) (list ?P)))
+            (list ?& ?#)
+            (when expertp (list ??))
+                     (list ?q)))
+  #+END_SRC
+  
+  The next clause of ~let*~ composes a list of allowed keys by combining ~(2 22 19 6 1)~ (ASCII codes, translate to ~C-b~ ~C-v~ ~C-s~ ~C-f~ ~C-a~), keys extracted for various backends, hard-coded keys for publishing, stack and template actions, and finally key for quiting from expert mode and the interface. Here ~let~ is used with a relatively unusual form, which binds ~nil~ to ~sub-menu~. This is because ~sub-menu~ is populated after the first-level key is pressed, with second-level menu items becoming allowed keys.
+  
+  The code in the ~help~ clause is too long to be reproduced here, but the idea is to always highlight ~allowed-keys~ in the interface. Implemented through the following expressions.
+  
+  #+BEGIN_SRC elisp
+                 ;; Display registered back-end entries.  When a key
+                 ;; appears for the second time, do not create another
+                 ;; entry, but append its sub-menu to existing menu.
+                 (let (last-key)
+                   (mapconcat
+                    (lambda (entry)
+                      (let ((top-key (car entry)))
+                        (concat
+                         (unless (eq top-key last-key)
+                           (setq last-key top-key)
+                           (format "\n[%s] %s\n"
+                                   (funcall fontify-key (char-to-string top-key))
+                                   (nth 1 entry)))
+                         (let ((sub-menu (nth 2 entry)))
+                           (unless (functionp sub-menu)
+                             ;; Split sub-menu into two columns.
+                             (let ((index -1))
+                               (concat
+                                (mapconcat
+                                 (lambda (sub-entry)
+                                   (incf index)
+                                   (format
+                                    (if (zerop (mod index 2)) "    [%s] %-26s"
+                                      "[%s] %s\n")
+                                    (funcall fontify-key
+                                             (char-to-string (car sub-entry))
+                                             top-key)
+                                    (nth 1 sub-entry)))
+                                 sub-menu "")
+                                (when (zerop (mod index 2)) "\n"))))))))
+                    entries ""))
+
+  #+END_SRC
+  
+  The ~standard-prompt~ and ~expert-prompt~ are pretty straightforward and I won't discuss them here. The ~BODY~ part of the ~let*~ behaviours according to ~expertp~ value. In standard mode, it arranges the windows and show the interface. Both call ~org-export--dispatch-action~ in the end.
+
+* ~org-export--dispatch-action~
+  This function gives the ~dispatch-ui~ life. It read keys, update the UI accordingly, and finally returns actions and options back to ~org-export-dispatch~.
+  
+  #+BEGIN_SRC elisp
+      (let (key)
+        ;; Scrolling: when in non-expert mode, act on motion keys (C-n,
+        ;; C-p, SPC, DEL).
+        (while (and (setq key (read-char-exclusive prompt))
+                    (not expertp)
+                    (memq key '(14 16 ?\s ?\d)))
+          (case key
+            (14 (if (not (pos-visible-in-window-p (point-max)))
+                    (ignore-errors (scroll-up 1))
+                  (message "End of buffer")
+                  (sit-for 1)))
+            (16 (if (not (pos-visible-in-window-p (point-min)))
+                    (ignore-errors (scroll-down 1))
+                  (message "Beginning of buffer")
+                  (sit-for 1)))
+            (?\s (if (not (pos-visible-in-window-p (point-max)))
+                     (scroll-up nil)
+                   (message "End of buffer")
+                   (sit-for 1)))
+            (?\d (if (not (pos-visible-in-window-p (point-min)))
+                     (scroll-down nil)
+                   (message "Beginning of buffer")
+                   (sit-for 1)))))
+  #+END_SRC
+
+  It reads character with ~read-char-exclusive~. The first part enables Emacs-style navigation within the interface.
+
+  #+BEGIN_SRC elisp
+        (cond
+         ;; Ignore undefined associations.
+         ((not (memq key allowed-keys))
+          (ding)
+          (unless expertp (message "Invalid key") (sit-for 1))
+          (org-export--dispatch-ui options first-key expertp))
+         ;; q key at first level aborts export.  At second level, cancel
+         ;; first key instead.
+         ((eq key ?q) (if (not first-key) (error "Export aborted")
+                        (org-export--dispatch-ui options nil expertp)))
+         ;; Help key: Switch back to standard interface if expert UI was
+         ;; active.
+         ((eq key ??) (org-export--dispatch-ui options first-key nil))
+         ;; Send request for template insertion along with export scope.
+         ((eq key ?#) (cons 'template (memq 'subtree options)))
+         ;; Switch to asynchronous export stack.
+         ((eq key ?&) '(stack))
+         ;; Toggle options: C-b (2) C-v (22) C-s (19) C-f (6) C-a (1).
+         ((memq key '(2 22 19 6 1))
+          (org-export--dispatch-ui
+           (let ((option (case key (2 'body) (22 'visible) (19 'subtree)
+                               (6 'force) (1 'async))))
+             (if (memq option options) (remq option options)
+               (cons option options)))
+           first-key expertp))
+  #+END_SRC
+
+  The next part hints at unrecognized keys, then deals with the cases when ~Ctrl~ option keys are pressed.
+
+  #+BEGIN_SRC elisp
+         ;; Action selected: Send key and options back to
+         ;; `org-export-dispatch'.
+         ((or first-key (functionp (nth 2 (assq key entries))))
+          (cons (cond
+                 ((not first-key) (nth 2 (assq key entries)))
+                 ;; Publishing actions are hard-coded.  Send a special
+                 ;; signal to `org-export-dispatch'.
+                 ((eq first-key ?P)
+                  (case key
+                    (?f 'publish-current-file)
+                    (?p 'publish-current-project)
+                    (?x 'publish-choose-project)
+                    (?a 'publish-all)))
+                 ;; Return first action associated to FIRST-KEY + KEY
+                 ;; path. Indeed, derived backends can share the same
+                 ;; FIRST-KEY.
+                 (t (catch 'found
+                      (mapc (lambda (entry)
+                              (let ((match (assq key (nth 2 entry))))
+                                (when match (throw 'found (nth 2 match)))))
+                            (member (assq first-key entries) entries)))))
+                options))
+         ;; Otherwise, enter sub-menu.
+         (t (org-export--dispatch-ui options key expertp)))))
+  #+END_SRC
+
+  So, when a key associated with a sub menu or an exporting function is pressed, this function returns with a list of action and options that can be used by ~org-export--dispatch-ui~ then ~org-export-dispatch~. Otherwise, it just calls ~org-export--dispatch-ui~ again to update the interface.
+
+* Summary
+
+  This is a very complex system, due to the need of adapting multiple export backends and generating 2-level menus. When I look at the code I feel like looking at the anatomy of an eye. I can't imagine how it is evolved.
+
+  But what these functions do are very clear. ~org-export-dispatch~ is the one directly invoked by the user, it calls ~org-export--dispatch-ui~ to show a helpful interface, which in turn calls ~org-export--dispatch-action~ to read keyboard input, update interface, and return action/options to ~org-export-dispatch~, which then call the right functions with options.
+
+  What I need with my pet project will be much simpler. For one thing, I only need to return options, and all keys can be hard coded. I can have a "quick publish" function that use all defaults, and a dispatcher to read options for other cases, and send them to a "versatile" publishing function.

@@ -1,0 +1,7 @@
+#+TITLE: Test blogging
+#+AUTHOR: Haoyang Xu
+#+DATE: 2016-02-18
+
+This is a first org-mode blog.
+
+Let's see again.

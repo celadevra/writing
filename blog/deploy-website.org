@@ -1,0 +1,96 @@
+#+TITLE: Deploy the website
+#+AUTHOR: Haoyang Xu
+#+DATE: 2016-02-19
+
+Okay, now org-mode generates the files alright. Next thing, I need to devise a method to deploy it to my DigitalOcean droplet.
+
+Before I use org-mode, I run a static site with Hakyll. Both Hakyll and Nginx are dockerized in my configuration. I need to stop the running containers, upload the current site to its ~/www_data~ path, and restart only the Nginx container.
+
+I also need to change Nginx's config a bit. Previously the generated files have no extension so pretty URLs are not a problem, I just need to set the default MIME types. Now the situation is reversed. I need to set Nginx's URL look up rules but don't have to set MIME types.
+
+* Edit Nginx config
+
+  It's the ~location~ node of the config that counts. The original one I used is like this:
+  #+BEGIN_SRC conf
+        location / {
+            root /data/www;
+            index index;
+        }
+#+END_SRC
+
+  I need to change it to this:
+  #+BEGIN_SRC conf
+    location / {
+             root /data/www;
+             try_files $uri $uri/ $uri.html;
+    }
+  #+END_SRC
+  
+  The [[http://nginx.org/en/docs/http/ngx_http_core_module.html#try_files][docs]] say that Nginx will try the 3 possibilities here one by one, and at last settle at ~$uri.html~, guess that's what I want.
+* Upload files to remote host
+  ~rsync~ seems to be the choice here. I only need to copy everything from local publish directory to the remote. This is even easier than the config before, except that I need to be at my computer when I want to update.
+  
+  #+BEGIN_SRC sh
+  # username and domain name redacted
+  rsync -rlptDv ~/org/published/ redacted@redacted.expoundite.net:/home/redacted/site
+  #+END_SRC
+
+  #+RESULTS:
+  | building                      | file      | list                | ...      | done    |       |         |           |
+  | created                       | directory | /home/snakehsu/site |          |         |       |         |           |
+  | ./                            |           |                     |          |         |       |         |           |
+  | but-i-didnt.html              |           |                     |          |         |       |         |           |
+  | googleeb2ce2a69786566d.html   |           |                     |          |         |       |         |           |
+  | index.html                    |           |                     |          |         |       |         |           |
+  | keybase.txt                   |           |                     |          |         |       |         |           |
+  | sitemap.html                  |           |                     |          |         |       |         |           |
+  | blog/                         |           |                     |          |         |       |         |           |
+  | blog/deploy-website.html      |           |                     |          |         |       |         |           |
+  | blog/rss.html                 |           |                     |          |         |       |         |           |
+  | blog/rss.xml                  |           |                     |          |         |       |         |           |
+  | blog/test.html                |           |                     |          |         |       |         |           |
+  | books/                        |           |                     |          |         |       |         |           |
+  | books/doing-data-science.html |           |                     |          |         |       |         |           |
+  | css/                          |           |                     |          |         |       |         |           |
+  | css/main.css                  |           |                     |          |         |       |         |           |
+  | tv/                           |           |                     |          |         |       |         |           |
+  | tv/narcos.html                |           |                     |          |         |       |         |           |
+  |                               |           |                     |          |         |       |         |           |
+  | sent                          | 69290     | bytes               | received | 314     | bytes | 2531.05 | bytes/sec |
+  | total                         | size      | is                  | 68308    | speedup | is    |    0.98 |           |
+  
+* Restart Nginx container
+
+  Find and kill running containers:
+
+  #+BEGIN_SRC sh :dir /ssh:snakehsu@ssh.expoundite.net:/home/snakehsu :results output :exports both
+  docker ps
+  #+END_SRC
+
+  #+RESULTS:
+  : CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                      NAMES
+  : b836aa22d2b6        celadevra/blog      "/src/site watch"        2 weeks ago         Up 2 weeks                                                     stupefied_wing
+  : 4fbaa46b628b        hakyll-nginx        "nginx -g 'daemon off"   3 weeks ago         Up 3 weeks          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   dreamy_williams
+
+  #+BEGIN_SRC sh :dir /ssh:snakehsu@ssh.expoundite.net:/home/snakehsu
+  # kill both images
+  docker kill b836aa22d2b6
+  docker kill 4fbaa46b628b
+  #+END_SRC
+
+  #+RESULTS:
+  | b836aa22d2b6 |
+  | 4fbaa46b628b |
+  
+  Restart nginx with new data dir and config:
+
+  #+BEGIN_SRC sh :dir /ssh:snakehsu@ssh.expoundite.net:/home/snakehsu
+  # docker build -t org-nginx -f src/docker-nginx/Dockerfile
+  docker run -d -p 443:443 -p 80:80 -v /home/redacted/site:/data/www org-nginx
+  #+END_SRC
+
+  #+RESULTS:
+  : cd79c02c8f64ac2cb349544dd3205a53d1b8e828fc5765696981d4e533dfe305
+  
+  Profit!
+

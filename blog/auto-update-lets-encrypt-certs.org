@@ -1,0 +1,50 @@
+#+TITLE: Automatically update Let's Encrypt certificates
+#+DATE: 2016-04-06
+#+AUTHOR: Haoyang Xu
+
+My website uses Let's Encrypt's certificates to encrypt HTTPS connections. Let's Encrypt encourages you to update certificates regularly using automated processes, and that is why they set the life of their certificates to 90 days. Mine are to expire at the end of the month, so I need to set up some =cron= job that does the following:
+
+- Stop the running docker container;
+- Request new certificates from Let's Encrypt;
+- Set up a new docker image that uses the new certificates;
+- Start new container with the updated image;
+- Delete unused image and stopped docker containers.
+
+The script is shown below:
+
+#+BEGIN_SRC sh :tangle /redacted@ssh.expoundite.net:/home/redacted/bin/le-cert-update.sh :mkdirp yes
+  #!/bin/bash
+
+  # Stop the running docker container;
+  docker kill $(docker ps -a -q --filter ancestor=org-nginx --format='{{.ID}}')
+  # Request new certificates
+  /home/redacted/src/letsencrypt/letsencrypt-auto renew -nvv --standalone > /var/log/letsencrypt/renew.log 2>&1
+  LE_STATUS=$?
+  if [ "$LE_STATUS" != 0 ]; then
+      echo Automated renewal failed:
+      cat /var/log/letsencrypt/renew.log
+      exit 1
+  fi
+  # Set up a new docker image that uses the new certificates
+  cp /etc/letsencrypt/live/expoundite.net/* /home/redacted/src/docker-nginx/
+  cd /home/redacted/src/docker-nginx
+  echo $PWD
+  docker build -t org-nginx .
+  # Start new container with new certificates
+  docker run -d -p 443:443 -p 80:80 -v /home/redacted/site:/data/www org-nginx
+  # Delete unused image and containers
+  docker rm $(docker ps -q -f status=exited)
+  docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi
+#+END_SRC
+
+Make it executable:
+
+#+BEGIN_SRC sh :dir /redacted@ssh.expoundite.net:~/bin
+chmod +x le-cert-update.sh
+#+END_SRC
+
+#+RESULTS:
+
+Finally, put it as a daily task in root's crontab. If the certificates will be expired within 30 days, the renew command will run successfully, and the nginx server will get restarted with the new certificates.
+
+
