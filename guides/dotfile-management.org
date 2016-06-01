@@ -218,6 +218,14 @@ There are at least 3 advantages of using Org-Mode to manage dotfiles, that I can
 
   - Emacs is single-threaded. If you use Org-Mode to deal with files/shells on remote systems through a slow connection, you will have to wait during tangling remote files and executing remote commands.
   - You don't have to deal with symlinks, and you don't get its benefits. For example, you change your Git settings through command ~git config --global ...~. Such changes don't automatically get updated in your Org-Mode file. It is your responsibility to update your ~dotfile.org~ by hand.
+    - UPDATE: Ken Mankoff sends me a tip that partially solves the problem. You can add the following line to the top of your ~dotfile.org~:
+
+      #+BEGIN_EXAMPLE
+        #+PROPERTY: header-args:conf  :comments link :tangle-mode (identity #o444)
+      #+END_EXAMPLE
+	
+	In Ken's own words: "This makes the files read-only, so I can't edit them by mistake. It also creates a commented link at the top of each, so I can jump from the dotfile to its Org origin if I open the dotfile by mistake." Kudos.
+      
   - Your ~dotfile.org~ may become to big and unwieldy. For most people this is not a big deal. On my late-2012 MacBook Pro, opening Org files of a few hundred KB is as smooth as opening a new file. But if this system is used for a long time, the files may grow with all those logs and documents. In that case, you may want to split the files by, say, putting each top-level headline in a separate file. It is easy to create links to other files in Org-Mode, so you can still conveniently navigate through all the files.
     
 * Acknowledgements
