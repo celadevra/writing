@@ -1,0 +1,24 @@
+#+TITLE: Wrapping text in CSS
+#+AUTHOR: Haoyang Xu
+
+In most cases, the browser handles text wrapping well enough. But for various reasons, you may want to ask it to wrap texts that by default are not wrapped. For example, lines in your =<pre>= tag may be too long, or a long URL needs to fit in your prose, without bleeding into your side bar.
+
+CSS has a few properties for handling wrapping:
+
+- =word-break=
+- =word-wrap/overflow-wrap=
+- =hyphens=
+- =text-overflow=
+  
+I wanted to examine all these but find this on the Web: [[https://justmarkup.com/log/2015/07/dealing-with-long-words-in-css/][Dealing with long words in CSS]] by Michael Scharnagl, which I think is a good enough reference. According to the author, a solution that works across browsers, is like this:
+
+#+BEGIN_SRC css
+  .hyphenate {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+  }
+#+END_SRC 

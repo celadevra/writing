@@ -1,7 +1,18 @@
+#+OPTIONS: prop:t num:nil
+* [[file:wrapping-text-in-css.org][Wrapping text in CSS]]
+  :PROPERTIES:
+  :ID:       4777CC3A-0BB2-4EA3-922D-57A09602A138
+  :PUBDATE:  <2016-06-07 Tue 17:25>
+  :END:
+* [[file:calculating-effect-size-in-r.org][Calculating effect size in R]]
+  :PROPERTIES:
+  :ID:       ED52F308-1E57-4F22-9F50-09DD9379E066
+  :PUBDATE:  <2016-06-07 Tue 08:57>
+  :END:
 * [[file:understanding-org-mode-export-dispatcher.org][Understanding Org-Mode's export dispatcher]]
   :PROPERTIES:
   :ID:       C40FE220-D0E4-4A57-96FF-178A758D0401
-  :PUBDATE:  <2016-04-13 三 16:34>
+  :PUBDATE:  <2016-04-13 Wed 16:34>
   :END:
 * [[file:auto-update-lets-encrypt-certs.org][Automatically update Let's Encrypt certificates]]
   :PROPERTIES:

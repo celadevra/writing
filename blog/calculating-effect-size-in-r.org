@@ -1,0 +1,23 @@
+#+TITLE: Calculating effect size in R
+#+AUTHOR: Haoyang Xu
+#+OPTIONS: tex:t
+
+In social sciences, researchers often use inferential statistics to determine if some phenomenon is purely due to chance (null hypothesis) or is indeed a meaningful event (alternative hypothesis). Say, I obtain some scores from a sample, which derives a mean of $\bar{X}$ that is different from the reported mean of the population $\mu$, and I need to know if my observation is purely due to chances, or indeed is indicating a change in the characteristics of the population. The standard procedure is that I calculate the standard deviation (SD), and obtain standard error $S_{e}$ from SD and sample size:
+
+\begin{equation}
+  S_e = \frac{\text{SD}}{\sqrt{n}}
+\end{equation}
+
+where $n$ stands for sample size. Then I can use $\bar{X}$, $\mu$ and $S_e$ to obtain a t-score:
+
+\begin{equation}
+  t = \frac{\bar{X} - \mu}{S_e}
+\end{equation}
+
+Then I can look up a table using the t-score and [[https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)][degree of freedom]] and obtain the probability of getting the t-score by chance. If such probability is [[http://www.dummies.com/how-to/content/how-to-find-the-cutoff-point-for-rejecting-a-null-.html][low enough]], I can publish my results as a statistically significant finding. 
+
+However, in this method the sample size has a very big influence. In some cases, $n$ = 25, $\bar{X} - \mu$ = 50 may not be statistically significant, while $n$ = 1600, $\bar{X} - \mu$ = 0.7 may be. It makes sense to be prudent when the sample size is small. But it makes little sense that we accept a hair of difference as significant instead of sampling error just because we have a very large sample.
+
+Effect size is proposed as a tool to help us estimate the significance of observed differences. It is the ratio of the difference of observed statistics and the "theoretical value", over the standard deviation of the sample. It measures the "effect" of the difference compared to the standard deviation. In some applications, an effect size of $\leq$ 0.2 is small, between 0.25 and 0.75 is moderate, and $\geq$ 0.8 is large. Effect size combined with $p$ -value can make a pretty good indicator of /practical/ significance.
+
+In R, there is =compute.es= package, which can calculate effect sizes of multiple statistics. =mes= function provided by this package calculates effect size for the case described above. 
