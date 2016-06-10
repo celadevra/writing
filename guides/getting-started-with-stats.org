@@ -1,0 +1,70 @@
+#+TITLE: Getting Started with ... Statistics
+#+AUTHOR: Haoyang Xu
+#+OPTIONS: tex:t
+
+* What is statistics?
+
+We measure things. In practice, there are two major difficulties: 1) there are too many things of the same kind, and it is not possible to measure every one of them; 2) you cannot eliminate errors when you measure, so different individuals gives you different measurements, even multiple measurement of the same individual yields different results; how do you describe this character being measured for the whole population of this kind of things?
+
+Staticstics was invented to solve this problem. In short, it a) describes the similarity and variation of measurements (scores) within a group of individuals (sample) that you can measure, which is called *descriptive statistics*; and b) help us estimate the characteristics in question in a larger group, which we often cannot or should not measure one by one, and this is called *inferential statistics*. 
+
+* Descriptive Statistics
+
+When we obtain scores over a sample, the first things that we need to know are: what are these values? What is the maximum and the minimum value? How large are the differences between the scores? What information do the values tell us as a whole? These questions are answered by descriptive statistics.
+
+** Central tendency
+
+   Central tendency tells you where the typical or common value is in your sample's scores. The mostly widely used central tendency measures are (in that order): the mean, the median, and the mode.
+
+*** The Mean
+
+    Just the arithmetic mean of all scores in the sample.
+
+    \begin{equation}
+      \bar{X} = \frac{\sum_{i=1}^{n}{X_{i}}}{n}
+    \end{equation}
+
+    where $n$ is sample size, $X_{i}$ is the score for the individual $i$.
+    
+    *In R*, the mean is calculated with
+
+    #+BEGIN_SRC R
+      mean(x, trim = 0, na.rm = FALSE, ...)
+    #+END_SRC
+
+*** The Median
+
+    If you sort your sample scores in ascending order, and pick the one in the middle if you have a sample size of odd value, or the mean of the two in the middle if you have a sample size of even value, you get the sample's median. A median is no smaller than half of the scores in the sample and no larger than the other half.
+    
+    Median is more useful than the mean in telling you the position of the typical value if you have some extreme values on either end of the score distribution, or the scores are ordinal values but not interval, i.e. the distance between values has no meaning.
+
+    *In R*, the median is calculated with
+
+    #+BEGIN_SRC R
+      median(x, na.rm = FALSE)
+    #+END_SRC
+
+    
+*** The Mode
+
+    The mode is simply the value that appears most frequently in the sample scores. Note that in some samples, there may be two or more modes. These are called bimodal and multimodal distributions. Also note that the mode is not necessarily close to the mean.
+
+    *In R*, you can use such a function to find mode numbers for a univariate sample:
+
+    #+BEGIN_SRC R
+      Mode <- function(x) {
+        ux <- unique(x)
+        tab <- tabulate(match(x, ux)); ux[tab == max(tab)]
+      }
+    #+END_SRC
+    
+    Alternatively you can use =modeest= package.
+
+** Dispersion
+
+   Dispersion tells you how large are the differences between scores.
+
+* References
+** Descriptive statistics
+
+- [[http://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode][Is there a built-in function for finding the mode?]] 
