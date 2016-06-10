@@ -8,7 +8,7 @@ We measure things. In practice, there are two major difficulties: 1) there are t
 
 Staticstics was invented to solve this problem. In short, it a) describes the similarity and variation of measurements (scores) within a group of individuals (sample) that you can measure, which is called *descriptive statistics*; and b) help us estimate the characteristics in question in a larger group, which we often cannot or should not measure one by one, and this is called *inferential statistics*. 
 
-* Descriptive Statistics
+* Descriptive statistics
 
 When we obtain scores over a sample, the first things that we need to know are: what are these values? What is the maximum and the minimum value? How large are the differences between the scores? What information do the values tell us as a whole? These questions are answered by descriptive statistics.
 
@@ -126,7 +126,41 @@ When we obtain scores over a sample, the first things that we need to know are: 
     #+BEGIN_SRC R
       sd(x, na.rm = FALSE)
     #+END_SRC
+    
+** Standardization and z-score
+   
+   z-score is a quick way to describe how far the score is from the mean.
+
+   \begin{equation}
+     z = \frac{X - \bar{X}}{SD}
+   \end{equation}
+   
+   So, if $X$ is 0.5 SD larger than the mean, its z-score is 0.5. If $X$ is 1 SD smaller than the mean, its z-score is -1.
+   
+   *In R*, z-scores can be calculated with
+
+   #+BEGIN_SRC R
+     scale(x, center = TRUE, scale = TRUE)
+   #+END_SRC
+* Inferential statistics
+  
+  Inferential statistics is used when we know some characteristics of the sample, and want to infer whether such characteristics exist in the larger population.
+** Standard error of the mean
+
+   Suppose we have a population. We randomly draw a sample, calculate its mean. Then we put the sampled individuals back into the population, and randomly draw another sample, we can again calculate its mean. Repeat this a few (hundred) more times, the means you calculated forms a distribution, called *the sampling distribution of the mean*, and the standard error of the mean is the standard deviation of this sampling distribution of the mean.
+   
+   Because of the [[https://en.wikipedia.org/wiki/Central_limit_theorem][central limit theorem]], the sampling distribution of the mean will be approching normal distribution. This makes standard error an indispensible tool in inferential statistics.
+   
+   Standard error of the mean is calculated from SD and sample size like this:
+
+   \begin{equation}
+     S_{e} = \frac{SD}{\sqrt{n}}
+   \end{equation}
+   
+   *In R*, you can use the above equation, or use =std.error= from the =plotrix= package.
+** t distributions and t-value
 * References
 ** Descriptive statistics
 
 - [[http://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode][Is there a built-in function for finding the mode?]] 
+- [[http://www.r-bloggers.com/r-tutorial-series-centering-variables-and-generating-z-scores-with-the-scale-function/][R Tutorial Series: Centering Variables and Generating Z-Scores with the Scale() Function]] 
