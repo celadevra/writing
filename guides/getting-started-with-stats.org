@@ -62,8 +62,70 @@ When we obtain scores over a sample, the first things that we need to know are: 
 
 ** Dispersion
 
-   Dispersion tells you how large are the differences between scores.
+   Dispersion tells you how large are the differences between scores. Some measurements here, namely variance and standard deviation, are basis of inferential statistics later, as they combined with central tendency give us ideas about where to expect scores in the population.
+   
+*** The Range
+    The range is the distance between the largest and the smallest value in the sample. It is often reported with the max/min values.
 
+    \begin{equation}
+      R = X_{\text{max}} - X_{\text{min}}
+    \end{equation}
+
+    *In R*, the range is calculated with
+
+    #+BEGIN_SRC R
+      range(..., na.rm = FALSE)
+    #+END_SRC
+    
+    Note that it reports the min and max values in a pair, not the range itself.
+    
+*** The Interquartile Range
+    The interquartile range is less influenced by extreme values than the range. As finding the median, you sort the scores, find the median and divide the samples into two groups, and find the medians in the two groups respectively. If you find the medians by calculating means, use the larger score. The distance between the two values you find is the interquartile range. 
+
+    *In R*, the interquartile range is calculated with
+
+    #+BEGIN_SRC R
+      # assuming continuous sample
+      IQR(x, na.rm = FALSE, type = 7)
+    #+END_SRC
+    
+*** Variance
+
+    Variance indicates the average of the amount of dispersion in a distribution of scores. To calculate variance, you add the distances of each score from the mean together and divide the sum by population size. But by definition, if you just add positive and negative distances themselves, the result would be 0. So the differences are squared first.
+    
+    Therefore, for the population's variance:
+
+    \begin{equation}
+      \sigma^{2} = \frac{\sum{X-\mu}^{2}}{N}
+    \end{equation}
+
+    where $N$ is the size of the population, $\mu$ is the population mean.
+
+    For the sample's variance, because the mean of the sample is a parameter calculated with all the sample scores, the degree of freedom is 1 less than the sample size:
+
+    \begin{equation}
+      s^{2} = \frac{\sum{X-\bar{X}}^{2}}{n - 1}
+    \end{equation}
+    
+    where $\bar{X}$ is the sample mean, and $n$ the sample size.
+    
+    *In R*, variance is calculated with
+
+    #+BEGIN_SRC R
+      var(x, y = NULL, na.rm = FALSE)
+    #+END_SRC
+
+*** Standard Deviation
+    
+    SD is the typical deviation between individual scores in a distribution and the mean of the distribution.
+    
+    It is simply calculated by obtaining the square root of variance.
+    
+    *In R*, the sample's SD is calculated with =sd= from =stats= package.
+
+    #+BEGIN_SRC R
+      sd(x, na.rm = FALSE)
+    #+END_SRC
 * References
 ** Descriptive statistics
 
