@@ -1,0 +1,37 @@
+#+TITLE: Compile commands in Emacs
+#+AUTHOR: Haoyang Xu
+
+[[https://imgs.xkcd.com/comics/compiling.png][Compiling]]
+
+The other day I learned from [[http://endlessparentheses.com/provide-input-to-the-compilation-buffer.html][Endless Parenthesis]] that there is a very useful =compile= command in Emacs that allow you to run any build tool as long as they can be called from the shell. You don't have to switch to a terminal to run them any more.
+
+By default, when you 'M-x compile', Emacs calls =make -k=, the default compile command. This is usually what you want with codes with a =Makefile=. If you want to use your own compile command for a specific project, you can use the recipe from [[https://www.emacswiki.org/emacs/CompileCommand][EmacsWiki]]:
+
+#+BEGIN_SRC elisp
+  (require 'compile)
+   (add-hook 'c-mode-hook
+             (lambda ()
+               (unless (file-exists-p "Makefile")
+                 (set (make-local-variable 'compile-command)
+                      ;; emulate make's .c.o implicit pattern rule, but with
+                      ;; different defaults for the CC, CPPFLAGS, and CFLAGS
+                      ;; variables:
+                      ;; $(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $<
+                      (let ((file (file-name-nondirectory buffer-file-name)))
+                        (format "%s -c -o %s.o %s %s %s"
+                                (or (getenv "CC") "gcc")
+                                (file-name-sans-extension file)
+                                (or (getenv "CPPFLAGS") "-DDEBUG=9")
+                                (or (getenv "CFLAGS") "-ansi -pedantic -Wall -g")
+                                file))))))
+#+END_SRC
+
+You can also set the compile command as a local variable:
+
+#+BEGIN_SRC elisp
+  # -*- compile-command: "crontab ~/.crontab" -*-
+#+END_SRC
+
+So whenever you press 'M-x compile', the file's content will be inserted into the crontab.
+
+The =*Compilation*= buffer shows the compile results, highlights errors, and even provide the option to jump to the error, which can be very handy combined with a REPL.
